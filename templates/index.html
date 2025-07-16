@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Healing AI Framework</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="icon-wrapper">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h1 class="title">Self-Healing AI Framework</h1>
+                <div class="icon-wrapper sparkle">
+                    <i class="fas fa-sparkles"></i>
+                </div>
+            </div>
+            <p class="subtitle">Advanced machine learning pipeline with automated drift detection, feature selection, and model optimization</p>
+        </header>
+
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+            <div class="step active" data-step="0">
+                <div class="step-number">1</div>
+                <div class="step-label">Upload Data</div>
+            </div>
+            <div class="step" data-step="1">
+                <div class="step-number">2</div>
+                <div class="step-label">Select Target</div>
+            </div>
+            <div class="step" data-step="2">
+                <div class="step-number">3</div>
+                <div class="step-label">Choose Task</div>
+            </div>
+            <div class="step" data-step="3">
+                <div class="step-number">4</div>
+                <div class="step-label">Drift Analysis</div>
+            </div>
+            <div class="step" data-step="4">
+                <div class="step-number">5</div>
+                <div class="step-label">Model Training</div>
+            </div>
+            <div class="step" data-step="5">
+                <div class="step-number">6</div>
+                <div class="step-label">Results</div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Step 1: File Upload -->
+            <div class="step-content active" id="step-upload">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-upload"></i> Upload Your Dataset</h2>
+                        <p>Upload a CSV file to begin the machine learning pipeline</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="upload-area" id="uploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h3>Drag & Drop your CSV file here</h3>
+                            <p>or click to browse</p>
+                            <input type="file" id="fileInput" accept=".csv" hidden>
+                        </div>
+                        <div class="upload-progress" id="uploadProgress" style="display: none;">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                            <p id="progressText">Uploading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Column Selection -->
+            <div class="step-content" id="step-columns">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-columns"></i> Select Target Column</h2>
+                        <p>Choose the target column for your machine learning model</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="columns-grid" id="columnsGrid">
+                            <!-- Columns will be populated by JavaScript -->
+                        </div>
+                        <button class="btn btn-primary" id="confirmColumns" disabled>Confirm Selection</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Task Type Selection -->
+            <div class="step-content" id="step-task">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-cogs"></i> Choose Task Type</h2>
+                        <p>Select the type of machine learning task</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="task-options">
+                            <div class="task-option" data-task="classification">
+                                <i class="fas fa-layer-group"></i>
+                                <h3>Classification</h3>
+                                <p>Predict categorical outcomes</p>
+                            </div>
+                            <div class="task-option" data-task="regression">
+                                <i class="fas fa-chart-line"></i>
+                                <h3>Regression</h3>
+                                <p>Predict continuous values</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" id="confirmTask" disabled>Continue</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Drift Analysis -->
+            <div class="step-content" id="step-analysis">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-search"></i> Drift Analysis & Base Model</h2>
+                        <p>Analyzing data drift and training base model</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="analysis-status" id="analysisStatus">
+                            <div class="loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p>Analyzing data...</p>
+                            </div>
+                        </div>
+                        <div class="analysis-results" id="analysisResults" style="display: none;">
+                            <!-- Results will be populated by JavaScript -->
+                        </div>
+                        <button class="btn btn-primary" id="continueTraining" style="display: none;">Continue to Model Training</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Model Training -->
+            <div class="step-content" id="step-training">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-robot"></i> Model Training</h2>
+                        <p>Select feature selection method and train models</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="feature-selection">
+                            <h3>Feature Selection Methods</h3>
+                            <div class="fs-buttons">
+                                <button class="btn btn-outline fs-btn" data-method="f_test">F-Test</button>
+                                <button class="btn btn-outline fs-btn" data-method="mutual_info">Mutual Info</button>
+                                <button class="btn btn-outline fs-btn" data-method="boruta">Boruta</button>
+                                <button class="btn btn-outline fs-btn" data-method="rfe">RFE</button>
+                            </div>
+                        </div>
+                        <div class="training-results" id="trainingResults">
+                            <!-- Training results will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 6: Results -->
+            <div class="step-content" id="step-results">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-trophy"></i> Best Model Results</h2>
+                        <p>Your optimized model is ready</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="best-model-info" id="bestModelInfo">
+                            <!-- Best model info will be populated by JavaScript -->
+                        </div>
+                        <button class="btn btn-success" id="generateCode">
+                            <i class="fas fa-code"></i> Generate Code
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Powered by Advanced ML Algorithms • Feature Selection • Drift Detection • Auto-Healing</p>
+        </footer>
+    </div>
+
+    <!-- Modal for Generated Code -->
+    <div class="modal" id="codeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Generated Code</h2>
+                <span class="close" id="closeModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <pre><code id="generatedCode"></code></pre>
+                <button class="btn btn-primary" id="copyCode">Copy Code</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
